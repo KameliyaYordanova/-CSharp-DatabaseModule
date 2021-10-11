@@ -1,0 +1,118 @@
+CREATE TABLE Employees
+(
+	Id INT PRIMARY KEY,
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	Title NVARCHAR(50) NOT NULL,
+	Notes NVARCHAR(MAX)
+)
+
+CREATE TABLE Customers
+(
+	AccountNumber INT PRIMARY KEY,
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	PhoneNumber CHAR(10),
+	EmergencyName VARCHAR(90),
+	EmergencyNumber CHAR(10) NOT NULL,
+	Notes NVARCHAR(MAX)
+)
+
+CREATE TABLE RoomStatus 
+(
+	RoomStatus VARCHAR(20) NOT NULL,
+	Notes NVARCHAR(MAX)
+)
+
+CREATE TABLE RoomTypes 
+(
+	RoomType VARCHAR(20) NOT NULL,
+	Notes NVARCHAR(MAX)
+)
+
+CREATE TABLE BedTypes 
+(
+	BedType NVARCHAR(50) PRIMARY KEY NOT NULL,
+	Notes NVARCHAR(MAX)
+)
+
+CREATE TABLE Rooms 
+(
+	RoomNumber INT PRIMARY KEY,
+	RoomType VARCHAR(20) NOT NULL,
+	BedType VARCHAR(20) NOT NULL,
+	Rate INT,
+	RoomStatus VARCHAR(20) NOT NULL,
+	Notes NVARCHAR(MAX)
+)
+
+CREATE TABLE Payments 
+(
+	Id INT PRIMARY KEY,
+	EmployeeId INT  NOT NULL,
+	PaymentDate DATETIME NOT NULL, 
+	AccountNumber INT NOT NULL,
+	FirstDateOccupied DATETIME NOT NULL,
+	LastDateOccupied DATETIME NOT NULL,
+	TotalDays INT NOT NULL,
+	AmountCharged DECIMAL(9, 2),
+	TaxRate INT,
+	TaxAmount INT,
+	PaymentTotal DECIMAL(9, 2),
+	Notes NVARCHAR(MAX)
+)
+
+CREATE TABLE Occupancies 
+(
+	Id INT PRIMARY KEY,
+	EmployeeId INT NOT NULL,
+	DateOccupied DATETIME NOT NULL,
+	AccountNumber INT NOT NULL,
+	RoomNumber INT NOT NULL,
+	RateApplied INT,
+	PhoneCharge DECIMAL(9, 2),
+	Notes NVARCHAR(MAX)
+)
+
+INSERT INTO Employees (Id, FirstName, LastName, Title, Notes) VALUES 
+(1,'Gosho', 'Goshev', 'CEO', NULL),
+(2,'Petar', 'Petrov', 'CFO', 'random note'),
+(3,'Petrov', 'Goshev', 'CTO', NULL)
+
+INSERT INTO Customers (AccountNumber, FirstName, LastName, PhoneNumber, EmergencyName,
+EmergencyNumber, Notes) VALUES 
+(120, 'Ivan', 'Petkov', 0888564852, 'Geri', 0645868239, NULL),
+(121, 'Petko', 'Petkov', 0888564852, 'Izi', 0645868239, NULL),
+(122, 'Dimityr', 'Petkov', 0888564852, 'Meri', 0645868239, NULL)
+
+INSERT INTO RoomStatus (RoomStatus, Notes) VALUES 
+('Cleaning', NULL),
+('Free', NULL),
+('Not free', NULL)
+
+INSERT INTO RoomTypes (RoomType, Notes) VALUES 
+('Small', NULL),
+('Medium', NULL),
+('Apartment', NULL)
+
+INSERT INTO BedTypes (BedType, Notes)VALUES 
+('Normal', NULL),
+('Comfort', NULL),
+('VIP', NULL)
+
+INSERT INTO Rooms (RoomNumber, RoomType, BedType, Rate, RoomStatus)VALUES 
+(120, 'Small', 'Normal', 50, 'Cleaning'),
+(121, 'Medium', 'Comfort', 70, 'Free'),
+(122, 'Apartment', 'VIP', 100, 'Not free')
+
+INSERT INTO Payments(Id, EmployeeId, PaymentDate, AccountNumber, FirstDateOccupied, LastDateOccupied,
+TotalDays, AmountCharged, TaxRate, TaxAmount, PaymentTotal, Notes)VALUES 
+(1, 1, GETDATE(), 120, '2012/05/04', '1999/03/13', 3, 450.23, NULL, NULL, 44.23, NULL),
+(2, 1, GETDATE(), 120, '2012/05/04', '1999/03/13', 5, 44.23, NULL, NULL, 45043.23, NULL),
+(3, 1, GETDATE(), 120, '2012/05/04', '1999/03/13', 7, 213.23, NULL, NULL, 123.38, NULL)
+ 
+INSERT INTO Occupancies (Id, EmployeeId, DateOccupied, AccountNumber, RoomNumber,
+RateApplied, PhoneCharge, Notes)VALUES 
+(1, 1, GETDATE(), 120, 120, 0, 0, NULL),
+(2, 1, GETDATE(), 212, 120, 0, 0, NULL),
+(3, 1, GETDATE(), 122, 120, 0, 0, NULL)
